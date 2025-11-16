@@ -1,52 +1,97 @@
 import { fetchRecipes } from "./api.js";
-//selectors
+
+// SELECTORS
 const form = document.getElementById("search");
 const searchInput = document.getElementById("searchInput");
 const recipeList = document.getElementById("recipeList");
-const recipeWindow = document.getElementById('recipeWindow');
-const recipeWindowHeader = document.getElementById('recipeName');
-const recipeWindowClose = document.getElementById('recipeWindowCloseButton')
+const recipeWindow = document.getElementById("recipeWindow");
+const recipeWindowHeader = document.getElementById("recipeName");
+const recipeWindowClose = document.getElementById("recipeWindowCloseButton");
+const recipeDescription = document.getElementById("recipeDescription");
+const recipeIngredients = document.getElementById("recipeIngredients");
 
-// search logic and showing entries
+// SEARCH LOGIC
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const query = searchInput.value.trim();
   if (!query) return;
+
   recipeList.innerHTML = "";
+
   const recipes = await fetchRecipes(query);
 
-  recipes.forEach((recipe) => {
-    
-    const recipeObject = document.createElement("li");
-    const recipeThumb = document.createElement("img");
-    recipeThumb.src = recipe.strMealThumb;
-    recipeObject.append(recipe.strMeal);
-    recipeList.append(recipeObject);
-    recipeList.append(recipeThumb);
+  if (!recipes.length) {
+    recipeList.textContent = "No recipes found";
+    return;
+  }
 
-    // list item click behavior
-
-    recipeObject.addEventListener('click', async (e) => {
-        try {
-            const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipe.idMeal}`);
-            if (!res.ok) {
-                throw new Error('Web error!')
-            } const data = await res.json()
-            recipeWindow.style.display = 'block'
-              recipeWindowHeader.textContent = data.meals[0].strMeal
-        } catch (error) {
-            console.log(error);
-        }
-    })
-  });
+  renderRecipes(recipes);
 });
 
+// RENDER LIST OF RECIPES
+function renderRecipes(recipes) {
+  recipes.forEach((recipe) => {
+    const recipeItem = document.createElement("li");
+    const recipeThumb = document.createElement("img");
 
+    recipeThumb.src = recipe.strMealThumb;
+    recipeThumb.alt = recipe.strMeal;
 
-// recipe window hiding logic
+    
+    recipeItem.append(recipeThumb, recipe.strMeal);
+    recipeList.append(recipeItem);
 
-recipeWindowClose.addEventListener('click', (e) => {
-    e.preventDefault();
-    recipeWindow.style.display = 'none'
-})
+    // CLICK EVENT for DETAILS
+    recipeItem.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
+  });
+}
+
+// RENDER DETAILS OF ONE RECIPE
+async function renderRecipeDetails(idMeal) {
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+    );
+    if (!res.ok) throw new Error("Błąd sieci");
+
+    const data = await res.json();
+    const meal = data.meals[0];
+
+    
+    recipeWindow.style.display = "block";
+    recipeWindowHeader.textContent = meal.strMeal;
+    recipeDescription.textContent = meal.strInstructions;
+
+    
+    recipeIngredients.innerHTML = "";
+
+    // collecting ingredients and measures
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ing = meal[`strIngredient${i}`];
+      const mea = meal[`strMeasure${i}`];
+      if (ing && ing.trim() !== "") {
+        ingredients.push({ ing, mea });
+      } else {
+        break;
+      }
+    }
+
+    // render ingredients
+    ingredients.forEach(({ ing, mea }) => {
+      const li = document.createElement("li");
+      li.textContent = `${mea ? mea : ""} ${ing}`.trim();
+      recipeIngredients.append(li);
+    });
+  } catch (error) {
+    console.error(error);
+    recipeWindowHeader.textContent = "Error";
+    recipeDescription.textContent = "";
+    recipeIngredients.innerHTML = "";
+  }
+}
+
+// CLOSE RECIPE WINDOW
+recipeWindowClose.addEventListener("click", () => {
+  recipeWindow.style.display = "none";
+});
