@@ -1,7 +1,23 @@
 .recipeWindow {
     margin: 0 auto;
+    z-index: 999;
     background-color: bisque;
-    width: 200px;
-    height: 200px;
     display: none;
+}
+
+#recipeList  {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    
+}
+
+#recipeList li {
+    display: flex;
+    
+    width: 400px;
+    height: 300px;
+
 }

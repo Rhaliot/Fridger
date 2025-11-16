@@ -58,7 +58,7 @@ async function renderRecipeDetails(idMeal) {
     const meal = data.meals[0];
 
     
-    recipeWindow.style.display = "block";
+    recipeWindow.style.display = "flex";
     recipeWindowHeader.textContent = meal.strMeal;
     recipeDescription.textContent = meal.strInstructions;
 
