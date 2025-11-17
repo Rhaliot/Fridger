@@ -9,6 +9,7 @@ const recipeWindowHeader = document.getElementById("recipeName");
 const recipeWindowClose = document.getElementById("recipeWindowCloseButton");
 const recipeDescription = document.getElementById("recipeDescription");
 const recipeIngredients = document.getElementById("recipeIngredients");
+const favorites = [];
 
 // SEARCH LOGIC
 form.addEventListener("submit", async (e) => {
@@ -33,17 +34,45 @@ function renderRecipes(recipes) {
   recipes.forEach((recipe) => {
     const recipeItem = document.createElement("li");
     const recipeThumb = document.createElement("img");
+    const favoriteStar = document.createElement("span");
 
+    favoriteStar.textContent = "X";
+    favoriteStar.style.color = 'blue'
     recipeThumb.src = recipe.strMealThumb;
     recipeThumb.alt = recipe.strMeal;
 
-    
+    recipeItem.append(favoriteStar);
     recipeItem.append(recipeThumb, recipe.strMeal);
     recipeList.append(recipeItem);
 
+    recipeItem.favorited = false;
+
     // CLICK EVENT for DETAILS
-    recipeItem.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
+    recipeItem.addEventListener("click", (e) => {
+      if (e.target.tagName != "SPAN") {
+        renderRecipeDetails(recipe.idMeal)
+      }
+    }
+      
+    );
+    recipeItem.addEventListener("click", () => favoriteLogic(recipeItem, favoriteStar))
   });
+}
+
+function favoriteLogic(recipeItem, favoriteStar) {
+  
+
+  if (recipeItem.favorited === false) {
+    recipeItem.favorited = true;
+    favoriteStar.style.color = 'red'
+    favorites.push(recipeItem.textContent);
+    localStorage.setItem('favoritedItems', JSON.stringify(favorites));
+  } else {
+    recipeItem.favorited = false;
+    favorites.splice(favorites.indexOf(recipeItem.textContent), 1)
+    localStorage.setItem('favoritedItems', JSON.stringify(favorites));
+    favoriteStar.style.color = 'blue'
+  }
 }
 
 // RENDER DETAILS OF ONE RECIPE
@@ -57,12 +86,10 @@ async function renderRecipeDetails(idMeal) {
     const data = await res.json();
     const meal = data.meals[0];
 
-    
     recipeWindow.style.display = "flex";
     recipeWindowHeader.textContent = meal.strMeal;
     recipeDescription.textContent = meal.strInstructions;
 
-    
     recipeIngredients.innerHTML = "";
 
     // collecting ingredients and measures
