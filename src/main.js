@@ -9,9 +9,61 @@ const recipeWindowHeader = document.getElementById("recipeName");
 const recipeWindowClose = document.getElementById("recipeWindowCloseButton");
 const recipeDescription = document.getElementById("recipeDescription");
 const recipeIngredients = document.getElementById("recipeIngredients");
-const favorites = [];
+const recipeFavoriteButton = document.getElementById("recipeFavoriteButton");
 
-// SEARCH LOGIC
+// GLOBAL STATE
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+// ---------- STORAGE HELPERS ----------
+function saveFavorites() {
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function loadFavorites() {
+  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  return favorites;
+}
+
+// ---------- FAVORITE LOGIC ----------
+function isFavoriteById(idMeal) {
+  return favorites.some(f => f.idMeal === idMeal);
+}
+
+function addRecipeToFavorites(meal) {
+  loadFavorites(); 
+  const exists = favorites.some(f => f.idMeal === meal.idMeal);
+  if (exists) return; 
+  favorites.push(meal);
+  saveFavorites();
+}
+
+function deleteRecipeFromFavorites(meal) {
+  loadFavorites();
+  favorites = favorites.filter(f => f.idMeal !== meal.idMeal);
+  saveFavorites();
+}
+
+// Toggle helper used from UI (returns new state)
+function toggleFavorite(meal) {
+  loadFavorites();
+  const exists = favorites.some(f => f.idMeal === meal.idMeal);
+  if (exists) {
+    favorites = favorites.filter(f => f.idMeal !== meal.idMeal);
+  } else {
+    favorites.push(meal);
+  }
+  saveFavorites();
+  return !exists;
+}
+
+function checkFavoriteState(meal) {
+  loadFavorites();
+  const exists = favorites.some(f => f.idMeal === meal.idMeal);
+  recipeFavoriteButton.style.color = exists ? "green" : "red";
+  return exists;
+}
+
+// ---------- SEARCH LOGIC ----------
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -21,7 +73,7 @@ form.addEventListener("submit", async (e) => {
 
   const recipes = await fetchRecipes(query);
 
-  if (!recipes.length) {
+  if (!recipes || recipes.length === 0) {
     recipeList.textContent = "No recipes found";
     return;
   }
@@ -29,53 +81,52 @@ form.addEventListener("submit", async (e) => {
   renderRecipes(recipes);
 });
 
-// RENDER LIST OF RECIPES
+// ---------- RENDER LIST OF RECIPES ----------
 function renderRecipes(recipes) {
+  recipeList.innerHTML = ""; 
+  loadFavorites();
+
   recipes.forEach((recipe) => {
     const recipeItem = document.createElement("li");
     const recipeThumb = document.createElement("img");
+    const nameSpan = document.createElement("span");
     const favoriteStar = document.createElement("span");
 
-    favoriteStar.textContent = "X";
-    favoriteStar.style.color = 'blue'
+    // setup elements
+    favoriteStar.textContent = "★";
+    favoriteStar.style.cursor = "pointer";
+    favoriteStar.style.marginRight = "8px";
+
+    nameSpan.textContent = recipe.strMeal;
     recipeThumb.src = recipe.strMealThumb;
     recipeThumb.alt = recipe.strMeal;
+    recipeThumb.style.width = "80px";
+    recipeThumb.style.height = "80px";
+    recipeThumb.style.objectFit = "cover";
+    recipeThumb.style.marginRight = "8px";
 
-    recipeItem.append(favoriteStar);
-    recipeItem.append(recipeThumb, recipe.strMeal);
+    // set favorite color based on state
+    favoriteStar.style.color = isFavoriteById(recipe.idMeal) ? "red" : "gray";
+
+    // append
+    recipeItem.append(favoriteStar, recipeThumb, nameSpan);
     recipeList.append(recipeItem);
 
-    recipeItem.favorited = false;
+    // favorite click (only star)
+    favoriteStar.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const nowFav = toggleFavorite(recipe);
+      favoriteStar.style.color = nowFav ? "red" : "gray";
+    });
 
-    // CLICK EVENT for DETAILS
-    recipeItem.addEventListener("click", (e) => {
-      if (e.target.tagName != "SPAN") {
-        renderRecipeDetails(recipe.idMeal)
-      }
-    }
-      
-    );
-    recipeItem.addEventListener("click", () => favoriteLogic(recipeItem, favoriteStar))
+  
+    recipeThumb.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
+    nameSpan.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
+    
   });
 }
 
-function favoriteLogic(recipeItem, favoriteStar) {
-  
-
-  if (recipeItem.favorited === false) {
-    recipeItem.favorited = true;
-    favoriteStar.style.color = 'red'
-    favorites.push(recipeItem.textContent);
-    localStorage.setItem('favoritedItems', JSON.stringify(favorites));
-  } else {
-    recipeItem.favorited = false;
-    favorites.splice(favorites.indexOf(recipeItem.textContent), 1)
-    localStorage.setItem('favoritedItems', JSON.stringify(favorites));
-    favoriteStar.style.color = 'blue'
-  }
-}
-
-// RENDER DETAILS OF ONE RECIPE
+// ---------- RENDER DETAILS OF ONE RECIPE ----------
 async function renderRecipeDetails(idMeal) {
   try {
     const res = await fetch(
@@ -86,10 +137,10 @@ async function renderRecipeDetails(idMeal) {
     const data = await res.json();
     const meal = data.meals[0];
 
+    // show window
     recipeWindow.style.display = "flex";
     recipeWindowHeader.textContent = meal.strMeal;
-    recipeDescription.textContent = meal.strInstructions;
-
+    recipeDescription.textContent = meal.strInstructions || "";
     recipeIngredients.innerHTML = "";
 
     // collecting ingredients and measures
@@ -98,18 +149,27 @@ async function renderRecipeDetails(idMeal) {
       const ing = meal[`strIngredient${i}`];
       const mea = meal[`strMeasure${i}`];
       if (ing && ing.trim() !== "") {
-        ingredients.push({ ing, mea });
+        ingredients.push({ ing: ing.trim(), mea: (mea || "").trim() });
       } else {
-        break;
+       
       }
     }
 
     // render ingredients
     ingredients.forEach(({ ing, mea }) => {
       const li = document.createElement("li");
-      li.textContent = `${mea ? mea : ""} ${ing}`.trim();
+      li.textContent = `${mea ? mea + " " : ""}${ing}`.trim();
       recipeIngredients.append(li);
     });
+
+    // set favorite button initial state
+    checkFavoriteState(meal);
+
+    // set handler 
+    recipeFavoriteButton.onclick = () => {
+      const nowFav = toggleFavorite(meal);
+      recipeFavoriteButton.style.color = nowFav ? "green" : "red";
+    };
   } catch (error) {
     console.error(error);
     recipeWindowHeader.textContent = "Error";
