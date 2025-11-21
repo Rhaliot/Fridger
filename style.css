@@ -21,3 +21,9 @@
     height: 300px;
 
 }
+
+#favoriteMenu {
+    display: none;
+    background-color: red;
+    
+}
