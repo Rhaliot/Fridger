@@ -10,9 +10,9 @@ const recipeWindowClose = document.getElementById("recipeWindowCloseButton");
 const recipeDescription = document.getElementById("recipeDescription");
 const recipeIngredients = document.getElementById("recipeIngredients");
 const recipeFavoriteButton = document.getElementById("recipeFavoriteButton");
-const favoriteMenuButton = document.getElementById("favoriteMenuButton");
+export const favoriteMenuButton = document.getElementById("favoriteMenuButton");
 const favoriteMenu = document.getElementById("favoriteMenu");
-const favoriteList = document.getElementById("favoriteList");
+ const favoriteList = document.getElementById("favoriteList");
 
 // GLOBAL STATE
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -36,29 +36,13 @@ function isFavoriteById(idMeal) {
 
 
 
-favoriteMenuButton.addEventListener("click", async (e) => {
-  e.preventDefault;
-  
-  
-  await loadFavorites();
-  favoriteMenuButton.style.display = 'none';
-  form.style.display = 'none';
-  favoriteMenu.style.display = "block";
-  
-  favorites.forEach((recipe, index) => {
-    let favoriteRecipe = document.createElement("li");
-    favoriteRecipe.textContent = favorites[index].strMeal;
-    favoriteList.appendChild(favoriteRecipe);
-  });
-
-  
+favoriteMenuButton.addEventListener("click",  (e) => {
+  e.preventDefault();
+window.location.assign("./favs.html");
 
 });
 
 
-function favoriteMenuLogic() {
-
-}
 
 function addRecipeToFavorites(meal) {
   loadFavorites(); 

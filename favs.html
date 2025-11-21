@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fridger - [Favorites]</title>
+  </head>
+
+  <body>
+    <h1>FAVORITES</h1>
+
+    <div id="favoriteMenu">
+      <ul id="favoriteList"></ul>
+    </div>
+
+    
+
+    
+<script>
+   
+   function loadFavorites() {
+  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  return favorites;
+}
+
+
+    const favoriteMenu = document.getElementById("favoriteMenu");
+ const favoriteList = document.getElementById("favoriteList");
+    
+      document.addEventListener("DOMContentLoaded", async (e) => {
+        await loadFavorites();
+
+        favorites.forEach((recipe, index) => {
+          let favoriteRecipe = document.createElement("li");
+          favoriteRecipe.textContent = favorites[index].strMeal;
+          favoriteList.appendChild(favoriteRecipe);
+        });
+      });
+    </script>
+
+  </body>
+</html>
