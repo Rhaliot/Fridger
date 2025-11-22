@@ -39,14 +39,17 @@
 
         favorites.forEach((recipe, index) => {
           let favoriteRecipe = document.createElement("li");
+          let recipeThumbnail = document.createElement("img");
           let deleteButton = document.createElement("button");
           favoriteRecipe.textContent = favorites[index].strMeal;
+          recipeThumbnail.src= favorites[index].strMealThumb;
           favoriteList.appendChild(favoriteRecipe);
+          favoriteRecipe.appendChild(recipeThumbnail);
           favoriteRecipe.appendChild(deleteButton);
           deleteButton.addEventListener("click", (e) => {
             const recipeZ = deleteButton.parentElement.textContent;
             deleteFavorites(favorites.findIndex((f) => f.strMeal === recipeZ));
-            favoriteList.removeChild(deleteButton.parentElement);
+            favoriteList.removeChild(deleteButton.parentNode);
           });
         });
       });
