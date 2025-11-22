@@ -13,7 +13,7 @@
       <ul id="favoriteList"></ul>
     </div>
 
-    
+    <button id="backButton">Go back</button>
 
     
 <script>
@@ -23,7 +23,7 @@
   return favorites;
 }
 
-
+    const backButton = document.getElementById("backButton");
     const favoriteMenu = document.getElementById("favoriteMenu");
  const favoriteList = document.getElementById("favoriteList");
     
@@ -36,6 +36,11 @@
           favoriteList.appendChild(favoriteRecipe);
         });
       });
+
+      document.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "./index.html"
+      })
     </script>
 
   </body>
