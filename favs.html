@@ -15,33 +15,46 @@
 
     <button id="backButton">Go back</button>
 
-    
-<script>
-   
-   function loadFavorites() {
-  favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  return favorites;
-}
+    <script>
+      function saveFavorites() {
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      }
 
-    const backButton = document.getElementById("backButton");
-    const favoriteMenu = document.getElementById("favoriteMenu");
- const favoriteList = document.getElementById("favoriteList");
-    
+      function deleteFavorites(index) {
+        favorites.splice(index, 1);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      }
+
+      function loadFavorites() {
+        favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        return favorites;
+      }
+
+      const backButton = document.getElementById("backButton");
+      const favoriteMenu = document.getElementById("favoriteMenu");
+      const favoriteList = document.getElementById("favoriteList");
+
       document.addEventListener("DOMContentLoaded", async (e) => {
         await loadFavorites();
 
         favorites.forEach((recipe, index) => {
           let favoriteRecipe = document.createElement("li");
+          let deleteButton = document.createElement("button");
           favoriteRecipe.textContent = favorites[index].strMeal;
           favoriteList.appendChild(favoriteRecipe);
+          favoriteRecipe.appendChild(deleteButton);
+          deleteButton.addEventListener("click", (e) => {
+            const recipeZ = deleteButton.parentElement.textContent;
+            deleteFavorites(favorites.findIndex((f) => f.strMeal === recipeZ));
+            favoriteList.removeChild(deleteButton.parentElement);
+          });
         });
       });
 
-      document.addEventListener("click", (e) => {
+      backButton.addEventListener("click", (e) => {
         e.preventDefault();
-        window.location.href = "./index.html"
-      })
+        window.location.href = "./index.html";
+      });
     </script>
-
   </body>
 </html>
