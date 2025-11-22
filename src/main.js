@@ -12,7 +12,7 @@ const recipeIngredients = document.getElementById("recipeIngredients");
 const recipeFavoriteButton = document.getElementById("recipeFavoriteButton");
 export const favoriteMenuButton = document.getElementById("favoriteMenuButton");
 const favoriteMenu = document.getElementById("favoriteMenu");
- const favoriteList = document.getElementById("favoriteList");
+const favoriteList = document.getElementById("favoriteList");
 
 // GLOBAL STATE
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -29,41 +29,34 @@ function loadFavorites() {
 
 // ---------- FAVORITE LOGIC ----------
 function isFavoriteById(idMeal) {
-  return favorites.some(f => f.idMeal === idMeal);
+  return favorites.some((f) => f.idMeal === idMeal);
 }
 
-
-
-
-
-favoriteMenuButton.addEventListener("click",  (e) => {
+favoriteMenuButton.addEventListener("click", (e) => {
   e.preventDefault();
-window.location.assign("./favs.html");
-
+  window.location.assign("./favs.html");
 });
 
-
-
 function addRecipeToFavorites(meal) {
-  loadFavorites(); 
-  const exists = favorites.some(f => f.idMeal === meal.idMeal);
-  if (exists) return; 
+  loadFavorites();
+  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
+  if (exists) return;
   favorites.push(meal);
   saveFavorites();
 }
 
 function deleteRecipeFromFavorites(meal) {
   loadFavorites();
-  favorites = favorites.filter(f => f.idMeal !== meal.idMeal);
+  favorites = favorites.filter((f) => f.idMeal !== meal.idMeal);
   saveFavorites();
 }
 
 // Toggle helper used from UI (returns new state)
 function toggleFavorite(meal) {
   loadFavorites();
-  const exists = favorites.some(f => f.idMeal === meal.idMeal);
+  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
   if (exists) {
-    favorites = favorites.filter(f => f.idMeal !== meal.idMeal);
+    favorites = favorites.filter((f) => f.idMeal !== meal.idMeal);
   } else {
     favorites.push(meal);
   }
@@ -73,7 +66,7 @@ function toggleFavorite(meal) {
 
 function checkFavoriteState(meal) {
   loadFavorites();
-  const exists = favorites.some(f => f.idMeal === meal.idMeal);
+  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
   recipeFavoriteButton.style.color = exists ? "green" : "red";
   return exists;
 }
@@ -98,7 +91,7 @@ form.addEventListener("submit", async (e) => {
 
 // ---------- RENDER LIST OF RECIPES ----------
 function renderRecipes(recipes) {
-  recipeList.innerHTML = ""; 
+  recipeList.innerHTML = "";
   loadFavorites();
 
   recipes.forEach((recipe) => {
@@ -134,10 +127,12 @@ function renderRecipes(recipes) {
       favoriteStar.style.color = nowFav ? "red" : "gray";
     });
 
-  
-    recipeThumb.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
-    nameSpan.addEventListener("click", () => renderRecipeDetails(recipe.idMeal));
-    
+    recipeThumb.addEventListener("click", () =>
+      renderRecipeDetails(recipe.idMeal)
+    );
+    nameSpan.addEventListener("click", () =>
+      renderRecipeDetails(recipe.idMeal)
+    );
   });
 }
 
@@ -166,7 +161,6 @@ async function renderRecipeDetails(idMeal) {
       if (ing && ing.trim() !== "") {
         ingredients.push({ ing: ing.trim(), mea: (mea || "").trim() });
       } else {
-       
       }
     }
 
@@ -180,7 +174,7 @@ async function renderRecipeDetails(idMeal) {
     // set favorite button initial state
     checkFavoriteState(meal);
 
-    // set handler 
+    // set handler
     recipeFavoriteButton.onclick = () => {
       const nowFav = toggleFavorite(meal);
       recipeFavoriteButton.style.color = nowFav ? "green" : "red";

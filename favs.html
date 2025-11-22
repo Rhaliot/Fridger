@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridger - [Favorites]</title>
   </head>
@@ -22,7 +23,7 @@
 
       function deleteFavorites(index) {
         favorites.splice(index, 1);
-        localStorage.setItem("favorites", JSON.stringify(favorites));
+        saveFavorites();
       }
 
       function loadFavorites() {
@@ -42,7 +43,7 @@
           let recipeThumbnail = document.createElement("img");
           let deleteButton = document.createElement("button");
           favoriteRecipe.textContent = favorites[index].strMeal;
-          recipeThumbnail.src= favorites[index].strMealThumb;
+          recipeThumbnail.src = favorites[index].strMealThumb;
           favoriteList.appendChild(favoriteRecipe);
           favoriteRecipe.appendChild(recipeThumbnail);
           favoriteRecipe.appendChild(deleteButton);
