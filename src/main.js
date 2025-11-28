@@ -117,15 +117,10 @@ function renderRecipes(recipes) {
     favoriteStar.style.color = isFavoriteById(recipe.idMeal) ? "red" : "gray";
 
     // append
-    recipeItem.append(favoriteStar, recipeThumb, nameSpan);
+    recipeItem.append(recipeThumb, nameSpan);
     recipeList.append(recipeItem);
 
-    // favorite click (only star)
-    favoriteStar.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const nowFav = toggleFavorite(recipe);
-      favoriteStar.style.color = nowFav ? "red" : "gray";
-    });
+ 
 
     recipeThumb.addEventListener("click", () =>
       renderRecipeDetails(recipe.idMeal)

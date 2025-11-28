@@ -1,4 +1,4 @@
-@import url(./fonts.css);
+
 
 
 
@@ -29,23 +29,32 @@ body {
 
 #recipeList li {
   display: flex;
+  font-family: "Barlow", sans-serif;
+  font-weight: 400;
+  font-size: 1.2em;
+  font-style: normal;
   flex-direction: column;
     text-align: center;
     background-color: #CBE896;
-    border: 3px solid #FCDFA6;
+    border: 5px solid #FCDFA6;
     border-radius: 20px;
     justify-content: center;
     align-items: center;
     height: 300px;
+    
 
 }
 
 
 #recipeList li img {
-  height: 220px !important;
-  width: 220px !important;
+  height: 180px !important;
+  width: 180px !important;
+   border: 5px solid #FCDFA6;
 }
 
+#recipeList li span {
+  margin-top: 10px;
+}
 
 #favoriteMenu {
     
