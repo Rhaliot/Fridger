@@ -1,29 +1,50 @@
+@import url(./fonts.css);
+
+
+
+body {
+  background-color: #AAC0AA;
+}
+
+
+
 .recipeWindow {
     margin: 0 auto;
     z-index: 999;
-    background-color: bisque;
+    background-color: #CBE896;
     display: none;
 }
 
 #recipeList  {
     text-decoration: none;
     list-style: none;
-    display: flex;
+    display: grid;
     gap: 50px;
+    padding: 20px;
+    display: flex;
     flex-direction: column;
+    
     
 }
 
 #recipeList li {
-    display: flex;
-    
-    width: 400px;
+  display: flex;
+  flex-direction: column;
+    text-align: center;
+    background-color: #CBE896;
+    border: 3px solid #FCDFA6;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
     height: 300px;
 
 }
 
 
-
+#recipeList li img {
+  height: 220px !important;
+  width: 220px !important;
+}
 
 
 #favoriteMenu {
@@ -34,24 +55,24 @@
 #favoriteList {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 2rem; 
   padding: 0;
 }
 #favoriteList > li {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem; 
-  background-color: #f9f9f9;
+  background-color: #CBE896;
 }
 
 #favoriteList > li img {
-  width: 100%;
+  width: 250px;
   height: auto;
   border-radius: 4px;
 }
