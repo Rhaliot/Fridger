@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+     <script
+      src="https://kit.fontawesome.com/a6789ee64e.js"
+      crossorigin="anonymous"
+    ></script>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,15 +15,60 @@
   </head>
 
   <body>
-    <h1>FAVORITES</h1>
+    <h1 id="favoritesHeader">FAVORITES</h1>
 
     <div id="favoriteMenu">
       <ul id="favoriteList"></ul>
     </div>
 
-    <button id="backButton">Go back</button>
+ <div id="recipeWindow" class="recipeWindow">
+      <div id="recipeWindowWraper">
+        <button id="recipeWindowCloseButton">X</button>
+        <h1 id="recipeName" class="recipeName">,</h1>
+        <p id="recipeDescription">,</p>
+        <ul id="recipeIngredients"></ul>
+        <ul id="recipeMeasures"></ul>
+        <button id="recipeFavoriteButton"><i class="fa-regular fa-bookmark"></i><br>  Add to favorites</button>
+      </div>
+    </div>
+
+
+    
+ <nav><button id="backButton"><i class="fa-solid fa-arrow-left"></i>                       Back </button></nav>
 
     <script>
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const recipeWindow = document.getElementById("recipeWindow");
+  recipeWindow.style.display = "none"; 
+});
+
+function checkFavoriteState(meal) {
+  loadFavorites();
+  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
+  recipeFavoriteButton.style.color = exists ? "green" : "red";
+  return exists;
+}
+
+function toggleFavorite(meal) {
+  loadFavorites();
+  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
+  if (exists) {
+    favorites = favorites.filter((f) => f.idMeal !== meal.idMeal);
+  } else {
+    favorites.push(meal);
+  }
+  saveFavorites();
+  return !exists;
+}
+
+
+const recipeWindowHeader = document.getElementById("recipeName");
+const recipeWindowClose = document.getElementById("recipeWindowCloseButton");
+const recipeDescription = document.getElementById("recipeDescription");
+
+
       function saveFavorites() {
         localStorage.setItem("favorites", JSON.stringify(favorites));
       }
@@ -34,34 +83,131 @@
         return favorites;
       }
 
-      const backButton = document.getElementById("backButton");
-      const favoriteMenu = document.getElementById("favoriteMenu");
-      const favoriteList = document.getElementById("favoriteList");
+  
 
       document.addEventListener("DOMContentLoaded", async (e) => {
         await loadFavorites();
 
+              const goUpButton = document.createElement("a");
+  const goUpIcon = document.createElement('i');
+    const backButton = document.getElementById("backButton");
+      const favoriteMenu = document.getElementById("favoriteMenu");
+      const favoriteList = document.getElementById("favoriteList");
+  
+  goUpIcon.classList.add('fa-angles-up', 'fa-solid', 'fa-xl');
+  goUpButton.href = '#'
+
+  goUpButton.appendChild(goUpIcon);
+  favoriteMenu.append(goUpButton);
+
+
         favorites.forEach((recipe, index) => {
-          let favoriteRecipe = document.createElement("li");
+          
           let recipeThumbnail = document.createElement("img");
-          let deleteButton = document.createElement("button");
-          favoriteRecipe.textContent = favorites[index].strMeal;
+          let favoriteRecipe = document.createElement("li");
+          
+          let title = document.createElement("span");
+          
+ recipeThumbnail.addEventListener("click", () =>
+      renderRecipeDetails(recipe.idMeal)
+    
+    );
+    title.addEventListener("click", () =>
+      renderRecipeDetails(recipe.idMeal)
+    );
+
+          title.textContent = favorites[index].strMeal;
           recipeThumbnail.src = favorites[index].strMealThumb;
+          
+          favoriteRecipe.append(recipeThumbnail, title);
           favoriteList.appendChild(favoriteRecipe);
-          favoriteRecipe.appendChild(recipeThumbnail);
-          favoriteRecipe.appendChild(deleteButton);
-          deleteButton.addEventListener("click", (e) => {
-            const recipeZ = deleteButton.parentElement.textContent;
-            deleteFavorites(favorites.findIndex((f) => f.strMeal === recipeZ));
-            favoriteList.removeChild(deleteButton.parentNode);
-          });
+  
+          
         });
       });
+  
+
+
 
       backButton.addEventListener("click", (e) => {
         e.preventDefault();
         window.location.href = "./index.html";
       });
+
+
+
+async function renderRecipeDetails(idMeal) {
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+    );
+    if (!res.ok) throw new Error("Błąd sieci");
+
+    const data = await res.json();
+    const meal = data.meals[0];
+
+    // show window
+    document.body.style.overflow = 'hidden';
+    recipeWindow.style.display = "flex";
+    recipeWindowHeader.textContent = meal.strMeal;
+    recipeDescription.textContent = meal.strInstructions || "";
+    recipeIngredients.innerHTML = "";
+
+    // collecting ingredients and measures
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ing = meal[`strIngredient${i}`];
+      const mea = meal[`strMeasure${i}`];
+      if (ing && ing.trim() !== "") {
+        ingredients.push({ ing: ing.trim(), mea: (mea || "").trim() });
+      }
+    }
+
+    // render ingredients
+    ingredients.forEach(({ ing, mea }) => {
+      const li = document.createElement("li");
+      li.textContent = `${mea ? mea + " " : ""}${ing}`.trim();
+      recipeIngredients.append(li);
+    });
+
+    // set favorite button text i kolor
+    recipeFavoriteButton.textContent = "Delete from favorites";
+    recipeFavoriteButton.style.color = "red";
+
+   
+    const liItems = Array.from(favoriteList.children);
+    const targetLi = liItems.find(li => {
+      const span = li.querySelector("span");
+      return span && span.textContent === meal.strMeal;
+    });
+
+   
+    recipeFavoriteButton.onclick = () => {
+      
+      deleteFavorites(favorites.findIndex(f => f.idMeal === meal.idMeal));
+      
+      if (targetLi) {
+        favoriteList.removeChild(targetLi);
+      }
+    
+      recipeWindow.style.display = "none";
+      document.body.style.overflow = '';
+    };
+
+  } catch (error) {
+    console.error(error);
+    recipeWindowHeader.textContent = "Error";
+    recipeDescription.textContent = "";
+    recipeIngredients.innerHTML = "";
+  }
+}
+// CLOSE RECIPE WINDOW
+recipeWindowClose.addEventListener("click", () => {
+  recipeWindow.style.display = "none";
+  document.body.style.overflow = '';
+});
+
+
     </script>
   </body>
 </html>

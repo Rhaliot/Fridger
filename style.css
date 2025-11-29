@@ -1,58 +1,54 @@
-
-
-
-
 body {
   background-color: #393e41;
   margin: 0;
-  padding-bottom: 80px;
+  padding-bottom: 30px;
 }
 
 nav {
   background-color: #e94f37;
-    position: fixed;   
-  bottom: 0;       
-  left: 0;           
-  width: 100%;       
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   height: 50px;
-  
+
   z-index: 99;
 }
 
 #favoriteMenuButton {
   display: flex;
   flex-direction: column;
-background-color: #e94f37;
-font-family: "Barlow", sans-serif;
+  background-color: #e94f37;
+  font-family: "Barlow", sans-serif;
   font-weight: 500;
-  font-size: 1em;
+  font-size: 1em; 
   font-style: normal;
   border-radius: 150px 150px 0px 0px;
   padding: 2em;
   border: none;
   cursor: pointer;
   margin-bottom: 1em;
- 
+
 }
 
 .recipeWindow {
-    position: fixed;
-    inset: 0;
-    display: none;
-    z-index: 999;
-    background-color: #f6f7ebf1;
-font-family: "Barlow", sans-serif;
-    
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    
-    overflow-y: auto;
-    padding: 30px; 
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999;
+  background-color: #f6f7ebf1;
+  font-family: "Barlow", sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  overflow-y: auto;
+  padding: 30px;
 }
 
 .recipeWindow button {
@@ -78,15 +74,15 @@ font-family: "Barlow", sans-serif;
   padding-bottom: 20px;
 }
 
-#recipeList  {
-    text-decoration: none;
-    list-style: none;
-    gap: 50px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    
-    
+#recipeList {
+  text-decoration: none;
+  list-style: none;
+  gap: 50px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+
 }
 
 #recipeList li {
@@ -96,13 +92,13 @@ font-family: "Barlow", sans-serif;
   font-size: 1.4em;
   font-style: normal;
   flex-direction: column;
-    text-align: center;
-    background-color: #f6f7eb;
-    
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    
+  text-align: center;
+  background-color: #f6f7eb;
+
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+
 
 }
 
@@ -113,14 +109,14 @@ font-family: "Barlow", sans-serif;
 #recipeList li img {
   height: 180px !important;
   width: 180px !important;
-   border: 5px solid #e94f37;
+  border: 5px solid #e94f37;
 }
 
 #recipeList li span {
   margin-top: 15px;
 }
 
-#recipeList  a {
+#recipeList a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,30 +124,28 @@ font-family: "Barlow", sans-serif;
   font-size: 1.9em;
 }
 
-#recipeWindow button {
-  
-}
+#recipeWindow button {}
 
 #search {
   display: flex;
   padding: 10px;
   justify-content: space-around;
--webkit-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
--moz-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
-border-radius: 20px;
- background-color: #e94f37;
+  -webkit-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+  box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+  border-radius: 20px;
+  background-color: #e94f37;
 }
 
 #search input {
-border-radius: 20px;
-padding: 5px;
-font-family: "Barlow", sans-serif;
+  border-radius: 20px;
+  padding: 5px;
+  font-family: "Barlow", sans-serif;
   font-weight: 500;
   font-size: 1em;
-  
+
   font-style: normal;
-background-color: #f6f7eb;
+  background-color: #f6f7eb;
 }
 
 #search button {
@@ -160,44 +154,86 @@ background-color: #f6f7eb;
   border: none;
 }
 
-
-
-
 #favoriteMenu {
-    
-    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#favoriteMenu a {
+  color: #e94f37;
+  font-size: 1.9em;
+  padding-bottom: 80px;
+}
+
+
+#favoritesHeader {
+  font-family: "Barlow", sans-serif;
+  text-align: center;
+  color: #f6f7eb;
+  border-bottom: 3px solid #e94f37;
+  padding-bottom: 20px;
 }
 
 #favoriteList {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2rem; 
-  padding: 0;
-}
-#favoriteList > li {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.2rem;
-  text-align: center;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 50px;
+
+}
+
+#favoriteList>li {
+  display: flex;
+  font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-size: 1.4em;
+  font-style: normal;
+  flex-direction: column;
+  text-align: center;
+  background-color: #f6f7eb;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem; 
-  background-color: #EBF8B8;
+  padding: 30px;
 }
 
-#favoriteList > li img {
-  width: 250px;
-  height: auto;
-  border-radius: 4px;
+
+#favoriteList li span {
+  margin-top: 15px;
+  font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  font-style: normal;
+  text-align: center;
 }
 
-#favoriteList > li > #text {
-    color:red;
+
+
+#favoriteList>li img {
+  height: 180px !important;
+  width: 180px !important;
+  border: 5px solid #e94f37;
+
 }
 
-#favoriteList > li button {
+#backButton {
+    display: flex;
+  flex-direction: column;
+  background-color: #e94f37;
+  font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  font-style: normal;
+  border-radius: 150px 150px 0px 0px;
+  padding: 2em;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1em;
+}
+
+#favoriteList>li button {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
 }
