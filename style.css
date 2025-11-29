@@ -25,7 +25,7 @@ nav {
   background-color: #e94f37;
   font-family: "Barlow", sans-serif;
   font-weight: 500;
-  font-size: 1em; 
+  font-size: 1em;
   font-style: normal;
   border-radius: 150px 150px 0px 0px;
   padding: 2em;
@@ -219,7 +219,7 @@ nav {
 }
 
 #backButton {
-    display: flex;
+  display: flex;
   flex-direction: column;
   background-color: #e94f37;
   font-family: "Barlow", sans-serif;
@@ -236,4 +236,84 @@ nav {
 #favoriteList>li button {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
+}
+
+
+@media only screen and (min-width: 992px) {
+
+
+  #search {
+    width: 50vw;
+    margin: 20px auto;
+  }
+
+  #search input {
+    width: 50%;
+    font-size: 1.4em;
+  }
+
+
+  #recipeList {
+    display: grid;
+    grid-template-columns: 0.2fr 0.2fr 0.2fr;
+    place-content: center;
+    place-items: center;
+  }
+
+  
+  #recipeList li {
+    cursor: pointer;
+    height: auto;
+    padding: 20px;
+  }
+
+  #recipeList li img {
+    width: 300px !important;
+    height: 300px !important;
+  }
+  
+#favoriteList {
+  display: grid;
+    grid-template-columns: 0.2fr 0.2fr 0.2fr;
+    place-content: center;
+    place-items: center;
+}
+
+#favoriteList li {
+  display: flex;
+  cursor: pointer;
+  font-size: 1.1em;
+    height:auto;
+    padding: 20px;
+}
+
+#favoriteList li span {
+  width: 320px;
+}
+
+#favoriteList li img {
+  width: 300px !important;
+    height: 300px !important;
+}
+
+
+#recipeWindow {
+  width: 50vw;
+  height: 60vh;
+  margin: auto auto;
+  padding: 100px;
+}
+
+nav {
+  width: 50vw;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%);
+  border-radius: 20px;
+}
+
+#favoriteMenuButton {
+  
+}
+
 }

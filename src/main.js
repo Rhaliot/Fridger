@@ -93,14 +93,7 @@ form.addEventListener("submit", async (e) => {
 
   renderRecipes(recipes);
 
-  const goUpButton = document.createElement("a");
-  const goUpIcon = document.createElement("i");
 
-  goUpIcon.classList.add("fa-angles-up", "fa-solid", "fa-xl");
-  goUpButton.href = "#";
-
-  goUpButton.appendChild(goUpIcon);
-  recipeList.appendChild(goUpButton);
 });
 
 // ---------- RENDER LIST OF RECIPES ----------
@@ -128,12 +121,10 @@ function renderRecipes(recipes) {
     recipeItem.append(recipeThumb, nameSpan);
     recipeList.append(recipeItem);
 
-    recipeThumb.addEventListener("click", () =>
+    recipeItem.addEventListener("click", () =>
       renderRecipeDetails(recipe.idMeal)
     );
-    nameSpan.addEventListener("click", () =>
-      renderRecipeDetails(recipe.idMeal)
-    );
+   
   });
 }
 
@@ -143,7 +134,7 @@ async function renderRecipeDetails(idMeal) {
     const res = await fetch(
       `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
     );
-    if (!res.ok) throw new Error("Błąd sieci");
+    if (!res.ok) throw new Error("Web error");
 
     const data = await res.json();
     const meal = data.meals[0];
