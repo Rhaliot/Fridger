@@ -3,22 +3,84 @@
 
 
 body {
-  background-color: #AAC0AA;
+  background-color: #393e41;
+  margin: 0;
+  padding-bottom: 80px;
 }
 
+nav {
+  background-color: #e94f37;
+    position: fixed;   
+  bottom: 0;       
+  left: 0;           
+  width: 100%;       
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  height: 50px;
+  
+  z-index: 99;
+}
 
+#favoriteMenuButton {
+  display: flex;
+  flex-direction: column;
+background-color: #e94f37;
+font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  font-style: normal;
+  border-radius: 150px 150px 0px 0px;
+  padding: 2em;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1em;
+ 
+}
 
 .recipeWindow {
-    margin: 0 auto;
-    z-index: 999;
-    background-color: #CBE896;
+    position: fixed;
+    inset: 0;
     display: none;
+    z-index: 999;
+    background-color: #f6f7ebf1;
+font-family: "Barlow", sans-serif;
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    
+    overflow-y: auto;
+    padding: 30px; 
+}
+
+.recipeWindow button {
+  font-size: 1.2rem;
+}
+
+#recipeWindowCloseButton {
+  width: 3rem;
+}
+
+#recipeWindowWraper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5rem;
+}
+
+.recipeWindow h1 {
+  text-align: center;
+  line-height: 2rem;
+  border-bottom: 2px solid black;
+  padding-bottom: 20px;
 }
 
 #recipeList  {
     text-decoration: none;
     list-style: none;
-    display: grid;
     gap: 50px;
     padding: 20px;
     display: flex;
@@ -30,14 +92,13 @@ body {
 #recipeList li {
   display: flex;
   font-family: "Barlow", sans-serif;
-  font-weight: 400;
-  font-size: 1.2em;
+  font-weight: 500;
+  font-size: 1.4em;
   font-style: normal;
   flex-direction: column;
     text-align: center;
-    background-color: #CBE896;
-    border: 5px solid #FCDFA6;
-    border-radius: 20px;
+    background-color: #f6f7eb;
+    
     justify-content: center;
     align-items: center;
     height: 300px;
@@ -46,15 +107,61 @@ body {
 }
 
 
+
+
+
 #recipeList li img {
   height: 180px !important;
   width: 180px !important;
-   border: 5px solid #FCDFA6;
+   border: 5px solid #e94f37;
 }
 
 #recipeList li span {
-  margin-top: 10px;
+  margin-top: 15px;
 }
+
+#recipeList  a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e94f37;
+  font-size: 1.9em;
+}
+
+#recipeWindow button {
+  
+}
+
+#search {
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+-webkit-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+-moz-box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+box-shadow: 0px 39px 46px -24px rgba(66, 68, 90, 1);
+border-radius: 20px;
+ background-color: #e94f37;
+}
+
+#search input {
+border-radius: 20px;
+padding: 5px;
+font-family: "Barlow", sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+  
+  font-style: normal;
+background-color: #f6f7eb;
+}
+
+#search button {
+  background-color: #e94f37;
+  cursor: pointer;
+  border: none;
+}
+
+
+
 
 #favoriteMenu {
     
@@ -77,7 +184,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem; 
-  background-color: #CBE896;
+  background-color: #EBF8B8;
 }
 
 #favoriteList > li img {

@@ -87,6 +87,16 @@ form.addEventListener("submit", async (e) => {
   }
 
   renderRecipes(recipes);
+
+  const goUpButton = document.createElement("a");
+  const goUpIcon = document.createElement('i');
+
+  goUpIcon.classList.add('fa-angles-up', 'fa-solid', 'fa-xl');
+  goUpButton.href = '#'
+
+  goUpButton.appendChild(goUpIcon);
+  recipeList.appendChild(goUpButton);
+
 });
 
 // ---------- RENDER LIST OF RECIPES ----------
@@ -98,12 +108,8 @@ function renderRecipes(recipes) {
     const recipeItem = document.createElement("li");
     const recipeThumb = document.createElement("img");
     const nameSpan = document.createElement("span");
-    const favoriteStar = document.createElement("span");
+    
 
-    // setup elements
-    favoriteStar.textContent = "★";
-    favoriteStar.style.cursor = "pointer";
-    favoriteStar.style.marginRight = "8px";
 
     nameSpan.textContent = recipe.strMeal;
     recipeThumb.src = recipe.strMealThumb;
@@ -114,7 +120,7 @@ function renderRecipes(recipes) {
     recipeThumb.style.marginRight = "8px";
 
     // set favorite color based on state
-    favoriteStar.style.color = isFavoriteById(recipe.idMeal) ? "red" : "gray";
+    (recipe.idMeal) ? "red" : "gray";
 
     // append
     recipeItem.append(recipeThumb, nameSpan);
@@ -124,6 +130,7 @@ function renderRecipes(recipes) {
 
     recipeThumb.addEventListener("click", () =>
       renderRecipeDetails(recipe.idMeal)
+    
     );
     nameSpan.addEventListener("click", () =>
       renderRecipeDetails(recipe.idMeal)
@@ -143,10 +150,12 @@ async function renderRecipeDetails(idMeal) {
     const meal = data.meals[0];
 
     // show window
+    document.body.style.overflow = 'hidden';
     recipeWindow.style.display = "flex";
     recipeWindowHeader.textContent = meal.strMeal;
     recipeDescription.textContent = meal.strInstructions || "";
     recipeIngredients.innerHTML = "";
+    
 
     // collecting ingredients and measures
     const ingredients = [];
@@ -185,4 +194,5 @@ async function renderRecipeDetails(idMeal) {
 // CLOSE RECIPE WINDOW
 recipeWindowClose.addEventListener("click", () => {
   recipeWindow.style.display = "none";
+  document.body.style.overflow = '';
 });

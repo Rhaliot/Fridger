@@ -1,46 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script
+      src="https://kit.fontawesome.com/a6789ee64e.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridger</title>
   </head>
   <body>
-    <nav><button id="favoriteMenuButton">Favorites</button></nav>
+    
     <form id="search" action="" method="post">
-      <input type="text" id="searchInput">
-      <button type="submit"></button>
+      <input type="text" id="searchInput" />
+
+      <button type="submit">
+        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+      </button>
     </form>
 
-<div id="recipeWindow" class="recipeWindow">
-  <button id="recipeWindowCloseButton"> X</button>
-<h1 id="recipeName" class="recipeName">,</h1>
-<p id="recipeDescription">, </p>
-<ul id="recipeIngredients"></ul>
-<ul id="recipeMeasures"></ul>
-<button id="recipeFavoriteButton">Add to favorites</button>
-</div>
+    <div id="recipeWindow" class="recipeWindow">
+      <div id="recipeWindowWraper">
+        <button id="recipeWindowCloseButton">X</button>
+        <h1 id="recipeName" class="recipeName">,</h1>
+        <p id="recipeDescription">,</p>
+        <ul id="recipeIngredients"></ul>
+        <ul id="recipeMeasures"></ul>
+        <button id="recipeFavoriteButton"><i class="fa-regular fa-bookmark"></i><br>  Add to favorites</button>
+      </div>
+    </div>
+
+    <ul id="recipeList"></ul>
+
+    <div id="favoriteMenu">
+      <ul id="favoriteList"></ul>
+    </div>
 
 
-    <ul id="recipeList">
-      
-    </ul>
-    
-
-<div id="favoriteMenu">
-  <ul id="favoriteList">
-
-  </ul>
-</div>
-
-<script>
-
-</script>
+    <nav><button id="favoriteMenuButton"><i class="fa-regular fa-bookmark"></i>                       Favorites </button></nav>
 
     <script type="module" src="/src/api.js"></script>
     <script type="module" src="/src/main.js"></script>
