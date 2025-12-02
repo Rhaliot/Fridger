@@ -17,4 +17,19 @@ export async function fetchRecipes(ingridient) {
   }
 }
 
- 
+export async function fetchIngredients() {
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
+    );
+    if (!res.ok) {
+      throw new Error("Web error");
+    } else {
+      const data = await res.json();
+      return data.meals;
+    }
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}

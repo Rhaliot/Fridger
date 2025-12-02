@@ -1,4 +1,5 @@
 import { fetchRecipes } from "./api.js";
+import { fetchIngredients } from "./api.js";
 
 // SELECTORS
 const form = document.getElementById("search");
@@ -185,3 +186,51 @@ recipeWindowClose.addEventListener("click", () => {
   recipeWindow.style.display = "none";
   document.body.style.overflow = "";
 });
+
+
+let timer = null;
+
+
+async function filterRecipes(query) {
+  const data = await fetchIngredients();
+  if (!data) return [];
+
+  const lowerQuery = query.toLowerCase();
+
+ 
+  const allMeals = data.flat();
+
+  const result = allMeals.filter(meal => {
+    return meal.strIngredient && meal.strIngredient.toLowerCase().includes(lowerQuery);
+  });
+
+  return result;
+}
+
+
+
+async function logRecipes(query) {
+  const filtered = await filterRecipes(query)
+  
+  console.log(filtered);
+
+}
+
+
+
+searchInput.addEventListener("input", (e) => {
+  clearTimeout(timer);
+
+
+timer = setTimeout(() => {
+if (searchInput.value.length >= 2) {
+  // clear podpowiedzi w divie
+  logRecipes(searchInput.value.trim())
+  
+
+  
+}
+}, 300)
+
+   
+})
