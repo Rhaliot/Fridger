@@ -14,6 +14,7 @@ const recipeFavoriteButton = document.getElementById("recipeFavoriteButton");
 export const favoriteMenuButton = document.getElementById("favoriteMenuButton");
 const favoriteMenu = document.getElementById("favoriteMenu");
 const favoriteList = document.getElementById("favoriteList");
+const suggestions = document.getElementById('suggestions');
 
 document.addEventListener("DOMContentLoaded", () => {
   const recipeWindow = document.getElementById("recipeWindow");
@@ -212,10 +213,32 @@ async function filterRecipes(query) {
 async function logRecipes(query) {
   const filtered = await filterRecipes(query)
   
-  console.log(filtered);
+
+  suggestions.style.display = 'block';
+
+  suggestions.innerHTML = '';
+
+ 
+
+
+  filtered.forEach(recipe => {
+    const ingredient = document.createElement('p');
+    ingredient.textContent = recipe.strIngredient;
+    suggestions.appendChild(ingredient);
+  })
+  
 
 }
 
+
+
+document.addEventListener('click', (e) => {
+  e.preventDefault;
+  if (e.target != searchInput) {
+  suggestions.style.display = 'none';
+  }
+  
+})
 
 
 searchInput.addEventListener("input", (e) => {
@@ -223,10 +246,10 @@ searchInput.addEventListener("input", (e) => {
 
 
 timer = setTimeout(() => {
-if (searchInput.value.length >= 2) {
-  // clear podpowiedzi w divie
-  logRecipes(searchInput.value.trim())
+if (searchInput.value.length >= 3) {
   
+  logRecipes(searchInput.value.trim())
+  suggestions.style.display = 'none';
 
   
 }

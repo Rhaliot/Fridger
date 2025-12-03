@@ -18,9 +18,13 @@
     <title>Fridger</title>
   </head>
   <body>
-    
     <form id="search" action="" method="post">
-      <input type="text" id="searchInput" />
+      <div class="suggestionWrapper">
+        <div class="suggestions" id="suggestions">
+
+        </div>
+        <input type="text" id="searchInput" />
+      </div>
 
       <button type="submit">
         <i class="fa-solid fa-magnifying-glass fa-xl"></i>
@@ -34,7 +38,10 @@
         <p id="recipeDescription">,</p>
         <ul id="recipeIngredients"></ul>
         <ul id="recipeMeasures"></ul>
-        <button id="recipeFavoriteButton"><i class="fa-regular fa-bookmark"></i><br>  Add to favorites</button>
+        <button id="recipeFavoriteButton">
+          <i class="fa-regular fa-bookmark"></i><br />
+          Add to favorites
+        </button>
       </div>
     </div>
 
@@ -44,8 +51,11 @@
       <ul id="favoriteList"></ul>
     </div>
 
-
-    <nav><button id="favoriteMenuButton"><i class="fa-regular fa-bookmark"></i>                       Favorites </button></nav>
+    <nav>
+      <button id="favoriteMenuButton">
+        <i class="fa-regular fa-bookmark"></i> Favorites
+      </button>
+    </nav>
 
     <script type="module" src="/src/api.js"></script>
     <script type="module" src="/src/main.js"></script>
